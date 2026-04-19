@@ -17,4 +17,35 @@ console.error(err);
 
 }
 
-module.exports ={createNewDiscussion}
+
+async function getAllDiscussion(req,res){
+  try{
+ const result = await discussionService.getAllDiscussions();
+ if(!result.success){
+    return res.status(404).json(result)
+}
+  res.status(200).json(result)
+  } 
+  catch(err){
+res.status(500).json({ message: "Internal server error" });
+  } 
+
+}
+
+async function getDiscussionsByUsername(req,res){
+    try{
+       
+        const result = await discussionService.getAuthorDiscussionByuserName(req.params.username);
+
+        if(!result.success){
+            return res.status(404).json(result)
+        }
+         res.status(200).json(result)
+
+    }
+    catch(err){
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports ={createNewDiscussion,getAllDiscussion,getDiscussionsByUsername}

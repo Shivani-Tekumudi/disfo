@@ -3,7 +3,8 @@ const express = require('express');
 const mongoose =require('mongoose');
 const UserRouter = require('./Router/user.routes')
 const StudentRouter = require('./Router/student.routes');
-const EmployeeRouter =require('./Router/employee.router')
+const EmployeeRouter =require('./Router/employee.router');
+const DiscussionRouter = require('./Router/discussion.router');
 
 const PORT = process.env.PORT;
 const URI =  process.env.MONGO_URI;
@@ -17,6 +18,7 @@ server.get('/', (req, res) => {
  server.use('/user/', UserRouter);
  server.use('/student/', StudentRouter)
  server.use('/employee/', EmployeeRouter)
+ server.use('/discussions/', DiscussionRouter)
 mongoose.connect(URI + db).then(() =>{
     console.log(" DB successfully connects")
 })

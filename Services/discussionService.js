@@ -58,7 +58,47 @@ static async getAuthorDiscussionByuserName(userName){
     }
 
 }
- 
+static async getDiscussionByID(id){
+
+    const result = await discussionModel.findById(id);
+     
+     if (!result){
+        return { success: false, message: "No discussions found for this user" }
+     }
+     return{
+        success: true,
+        data: result
+    }
+
+}
+//  ------------ delete discussion fro the id and author as user from the user db------------------
+
+static async deleteDiscussionByID(id,author){
+    // 1. Fetch discussion
+  const discussion = await discussionModel.findById(id);
+
+  if (!discussion) {
+    return { success: false, status: 404, message: "Discussion not found" };
+  }
+  // 2. Check ownership
+  if (discussion.author !== author) {
+    return { success: false, status: 403, message: "Unauthorized Access" };
+  }
+
+  // 3. Delete
+  const result = await discussionModel.findByIdAndDelete(id);
+
+  if (result.deletedCount === 0) {
+    return { success: false, status: 404, message: "Discussion not found" };
+  }
+console.log()
+ return {
+    success: true,
+    status: 200,
+    message: "Discussion deleted successfully",
+    response: result
+  };
+}
 
 }
 
